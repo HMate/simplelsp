@@ -10,8 +10,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onLanguage:simplelanguage",
-		"onCommand:simplelsp.helloWorld"
+		"onLanguage:simplelanguage"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -25,12 +24,6 @@
 					"sl", "simplelanguage", "SimpleLanguage"
 				],
 				"configuration": "./language-configuration.json"
-			}
-		],
-		"commands": [
-			{
-				"command": "simplelsp.runsimlsp",
-				"title": "Run Simple Lanugage LSP"
 			}
 		],
 		"configuration": {

@@ -16,19 +16,12 @@ let client: LanguageClient;
 export function activate(context: vscode.ExtensionContext) { 
 
 	console.log('Congratulations, your extension "simplelsp" is now active!');
-
-	let disposable = vscode.commands.registerCommand('simplelsp.runsimlsp', () => {
-		vscode.window.showInformationMessage('Hello World from simplelsp!');
-	});
-
-	context.subscriptions.push(disposable);
-
-
 	let serverExe = path.join('/home', 'hmate', 'projects', 'simplelanguage', 'sl');
 
     let serverOptions: ServerOptions = {
-        run: {command: serverExe, args:['--lsp', "main.sl"]},
-        debug: {command: serverExe, args:['--lsp', "main.sl"]}
+        run: {command: serverExe, args:['--lsp', "main.sl"], 
+            transport: TransportKind.ipc},
+        debug: {command: serverExe, args:['--lsp', "main.sl"], transport: TransportKind.ipc}
     };
 
     let clientOptions: LanguageClientOptions = {
@@ -45,6 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
     // For debugging only
     lspClient.trace = Trace.Verbose;
     context.subscriptions.push(lspClient.start());
+	console.log('Initialized simplelanguage client');
 }
 
 export function deactivate(): Thenable<void> | undefined {
