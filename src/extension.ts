@@ -2,13 +2,15 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as net from 'net';
 
 import {
 	LanguageClient,
 	LanguageClientOptions,
 	ServerOptions,
 	TransportKind,
-	Trace
+	Trace,
+    StreamInfo
 } from 'vscode-languageclient/node';
 
 let client: LanguageClient;
@@ -16,13 +18,6 @@ let client: LanguageClient;
 export function activate(context: vscode.ExtensionContext) { 
 
 	console.log('Congratulations, your extension "simplelsp" is now active!');
-	let serverExe = path.join('/home', 'hmate', 'projects', 'simplelanguage', 'sl');
-
-    let serverOptions: ServerOptions = {
-        run: {command: serverExe, args:['--lsp', "main.sl"], 
-            transport: TransportKind.ipc},
-        debug: {command: serverExe, args:['--lsp', "main.sl"], transport: TransportKind.ipc}
-    };
 
     let clientOptions: LanguageClientOptions = {
         // Register the server for plain text documents
@@ -33,7 +28,21 @@ export function activate(context: vscode.ExtensionContext) {
         ]
     };
 
-    let lspClient = new LanguageClient("simplelang", "SimpleLang LSP", serverOptions, clientOptions);
+    const host = '127.0.0.1';
+    const port = 8123;
+    let lspClient = new LanguageClient("simplelang", "SimpleLang LSP", 
+        () => new Promise<StreamInfo>((resolve, reject) => {
+            const socket = new net.Socket();
+            socket.once('error', (e) => {
+                reject(e);
+            });
+            socket.connect(port, host, () => {
+                resolve({
+                    reader: socket,
+                    writer: socket
+                } as StreamInfo);
+            });
+        }), clientOptions);
 
     // For debugging only
     lspClient.trace = Trace.Verbose;

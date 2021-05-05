@@ -21,7 +21,9 @@
 					".sl"
 				],
 				"aliases": [
-					"sl", "simplelanguage", "SimpleLanguage"
+					"sl",
+					"simplelanguage",
+					"SimpleLanguage"
 				],
 				"configuration": "./language-configuration.json"
 			}
