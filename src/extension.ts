@@ -37,6 +37,9 @@ export function activate(context: vscode.ExtensionContext) {
                 reject(e);
                 console.log(`Rejected ${e}`);
             });
+            socket.on("data", (data: Buffer) => {
+                console.log(`Data recieved from LSPServer: \n${data}`);
+            });
             socket.connect(port, host, () => {
                 console.log(`Connect ${host}`);
                 resolve({
