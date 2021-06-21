@@ -30,13 +30,15 @@ export function activate(context: vscode.ExtensionContext) {
 
     const host = '127.0.0.1';
     const port = 8123;
-    let lspClient = new LanguageClient("simplelang", "SimpleLang LSP", 
+    let lspClient = new LanguageClient("simplelanguage", "SimpleLang LSP", 
         () => new Promise<StreamInfo>((resolve, reject) => {
             const socket = new net.Socket();
-            socket.once('error', (e) => {
+            socket.on('error', (e) => {
                 reject(e);
+                console.log(`Rejected ${e}`);
             });
             socket.connect(port, host, () => {
+                console.log(`Connect ${host}`);
                 resolve({
                     reader: socket,
                     writer: socket
