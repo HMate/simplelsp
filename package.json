@@ -28,6 +28,13 @@
 				"configuration": "./language-configuration.json"
 			}
 		],
+		"commands": [
+			{
+				"command": "simplelanguage.testcommand",
+				"title": "Send SIMPLANG Test Command To LSP",
+				"category": "Simple Lang Test"
+			}
+		],
 		"configuration": {
 			"type": "object",
 			"title": "Example configuration",

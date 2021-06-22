@@ -49,10 +49,22 @@ export function activate(context: vscode.ExtensionContext) {
             });
         }), clientOptions);
 
+    
+
     // For debugging only
     lspClient.trace = Trace.Verbose;
     context.subscriptions.push(lspClient.start());
+
+    context.subscriptions.push(vscode.commands.registerCommand("simplelanguage.testcommand", sendTestCommand));
+    
 	console.log('Initialized simplelanguage client');
+}
+
+function sendTestCommand() {
+    console.log('Sendng test command commenced');
+    vscode.commands.executeCommand("VeryCoolCommand").then((res) => {
+        console.log(`Got command result: ${res}`);
+    });
 }
 
 export function deactivate(): Thenable<void> | undefined {
